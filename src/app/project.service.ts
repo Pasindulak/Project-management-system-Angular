@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Project } from 'src/Project';
+import { Project } from 'src/app/Project';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +14,10 @@ export class ProjectService {
     this.projectList = [];
   }
 
-  public fetchData(): Project[] {
+  //Function used to return all the projects
+  public getallProjects(): Project[] {
 
-    this.getJSON().subscribe(data => {
+    this.getRequest().subscribe(data => {
       for (let i = 0; i < data.projects.length; i++) {
         this.projectList.push(new Project(data.projects[i].id, data.projects[i].name));
       }
@@ -25,10 +26,12 @@ export class ProjectService {
     return this.projectList;
   }
 
-  private getJSON(): Observable<any> {
+  //Funtion used to Constructs a GET request
+  private getRequest(): Observable<any> {
     return this.http.get(this._jsonURL);
   }
 
+  //Function used to filter projects;
   public async searchProjects(searchTerm: string) {
 
     let filteredProjects: Project[] = [];

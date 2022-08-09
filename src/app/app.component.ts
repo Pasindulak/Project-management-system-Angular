@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Project } from 'src/Project';
+import { Project } from 'src/app/Project';
 import { ProjectService } from './project.service';
 
 @Component({
@@ -14,9 +14,10 @@ export class AppComponent {
 
   constructor(projectService: ProjectService) {
     this.projectService = projectService;
-    this.projectList = projectService.fetchData();
+    this.projectList = projectService.getallProjects();
   }
 
+  //Function used to search button click action
   async searchButtonAction() {
     const term = (<HTMLInputElement>document.getElementById('term')).value;
     this.showMessage("Searching..");
