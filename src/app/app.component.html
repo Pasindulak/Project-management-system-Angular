@@ -3,8 +3,9 @@
    <h1>{{title}}</h1>
    <div>
      <input type="text" id="term" name="term">
-     <button type="button" (click)="searchButtonAction()">Search</button>
+     <button type="button" id="submit" class="btn" (click)="searchButtonAction()">Search</button>
    </div>   
+   <h3 id="message" style="display: none;"></h3>
    <div class="projectList">
      <app-projects [projectList]= "projectList"  ></app-projects>
    </div>

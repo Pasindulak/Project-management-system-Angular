@@ -31,7 +31,7 @@ export class ProjectService {
     return this.http.get(this._jsonURL);
   }
 
-  public searchProjects(searchTerm: string) {
+  public async searchProjects(searchTerm: string) {
 
     let filteredProjects: Project [] = [];
     this.projectList.forEach(element => {
@@ -40,7 +40,7 @@ export class ProjectService {
             filteredProjects.push(element);
         }
     });
-    //await new Promise(r => setTimeout(r, 5000));
+    await new Promise(r => setTimeout(r, 5000));
     return filteredProjects;
 
 }
