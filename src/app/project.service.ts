@@ -36,7 +36,7 @@ export class ProjectService {
 
     let filteredProjects: Project[] = [];
     filteredProjects = this.projectList.filter((project: Project) => {return (project.name.toLowerCase().search(searchTerm.toLowerCase()) >= 0)});
-    await new Promise(r => setTimeout(r, 2000));
+    await new Promise(r => setTimeout(r, 600));
     return filteredProjects;
 
   }
