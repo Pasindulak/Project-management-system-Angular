@@ -14,16 +14,15 @@ export class AppComponent {
 
   constructor(projectService: ProjectService) {
     this.projectService = projectService;
-    this.projectList = projectService.getallProjects();
+    this.projectList = projectService.getAll();
   }
 
-  //Function used to search button click action
-  async searchButtonAction() {
-    const term = (<HTMLInputElement>document.getElementById('term')).value;
+  async search() {
+    const term = (<HTMLInputElement>document.getElementById('term')).value;   //// to be modified
     this.showMessage("Searching..");
     this.disableSearch(true);
     this.projectList = [];  //clear the list
-    this.projectList = await this.projectService.searchProjects(term); //fill the list
+    this.projectList = await this.projectService.search(term); //fill the list
     if (this.projectList.length === 0) {
       this.showMessage("No result found..");
     } else {
@@ -32,13 +31,13 @@ export class AppComponent {
     this.disableSearch(false);
   }
 
-  //Function used to disable search button and serach bar
+  //Disable search button and serach bar
   disableSearch(setEnable: boolean) {
     (<HTMLInputElement>document.getElementById("term")).disabled = setEnable;
     (<HTMLInputElement>document.getElementById("submit")).disabled = setEnable;
   }
 
-  //Show messages to user
+  //Show a message to user
   showMessage(message: string) {
     const msgView = <HTMLElement>document.getElementById('message');
     msgView.innerHTML = message;

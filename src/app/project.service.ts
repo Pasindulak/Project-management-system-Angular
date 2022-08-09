@@ -7,36 +7,33 @@ import { Project } from 'src/app/Project';
   providedIn: 'root'
 })
 export class ProjectService {
-  private _jsonURL = '/assets/projects.json';
+  private projectURL = '/assets/projects.json';
   private projectList: Project[];
 
   constructor(private http: HttpClient) {
     this.projectList = [];
   }
 
-  //Function used to return all the projects
-  public getallProjects(): Project[] {
+  //Return all the projects
+  public getAll(): Project[] {
 
-    this.getRequest().subscribe(data => {
+    const REQUEST: Observable<any> = this.http.get(this.projectURL);
+
+    REQUEST.subscribe(data => {
       for (let i = 0; i < data.projects.length; i++) {
         this.projectList.push(new Project(data.projects[i].id, data.projects[i].name));
       }
-
     });
+    
     return this.projectList;
   }
 
-  //Funtion used to Constructs a GET request
-  private getRequest(): Observable<any> {
-    return this.http.get(this._jsonURL);
-  }
 
-  //Function used to filter projects;
-  public async searchProjects(searchTerm: string) {
+  public async search(searchTerm: string) {
 
     let filteredProjects: Project[] = [];
     filteredProjects = this.projectList.filter((project: Project) => {return (project.name.toLowerCase().search(searchTerm.toLowerCase()) >= 0)});
-    await new Promise(r => setTimeout(r, 600));
+    //await new Promise(r => setTimeout(r, 600));
     return filteredProjects;
 
   }
