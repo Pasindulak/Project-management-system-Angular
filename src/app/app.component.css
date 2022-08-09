@@ -20,8 +20,7 @@ section{
 }
 
 .container{   
-    background-color: #F8F8FF;    
-    align-items: center;  
+    background-color: #F8F8FF; 
     max-width: 700px;
     margin: auto;
     width:100%;
