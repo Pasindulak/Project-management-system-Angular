@@ -35,12 +35,7 @@ export class ProjectService {
   public async searchProjects(searchTerm: string) {
 
     let filteredProjects: Project[] = [];
-    this.projectList.forEach(element => {
-      let pName = element.name;
-      if (pName.toLowerCase().search(searchTerm.toLowerCase()) >= 0) {
-        filteredProjects.push(element);
-      }
-    });
+    filteredProjects = this.projectList.filter((project: Project) => {return (project.name.toLowerCase().search(searchTerm.toLowerCase()) >= 0)});
     await new Promise(r => setTimeout(r, 2000));
     return filteredProjects;
 
