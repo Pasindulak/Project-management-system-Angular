@@ -14,7 +14,18 @@ export class AppComponent {
 
   constructor(projectService: ProjectService) {
     this.projectService = projectService;
-    this.projectList = projectService.getAll();
+    this.projectList = [];
+  }
+
+  ngOnInit(): void {
+    this.start();
+  }
+  
+  //Load the project list
+  async start() {
+    this.showMessage("Searching..");
+    this.projectList = await this.projectService.getAll();
+    this.hideMessage();
   }
 
   async search() {

@@ -15,7 +15,7 @@ export class ProjectService {
   }
 
   //Return all the projects
-  public getAll(): Project[] {
+  public async getAll() {
 
     const REQUEST: Observable<any> = this.http.get(this.projectURL);
 
@@ -24,7 +24,7 @@ export class ProjectService {
         this.projectList.push(new Project(data.projects[i].id, data.projects[i].name));
       }
     });
-    
+    await new Promise(r => setTimeout(r, 1000));
     return this.projectList;
   }
 
