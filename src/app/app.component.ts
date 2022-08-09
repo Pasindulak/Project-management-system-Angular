@@ -23,7 +23,11 @@ export class AppComponent {
     this.disableSearch(true);
     this.projectList = [];  //clear the list
     this.projectList = await this.projectService.searchProjects(term); //fill the list
-    this.hideMessage();
+    if (this.projectList.length === 0) {
+      this.showMessage("No result found..");
+    } else {
+      this.hideMessage();
+    }
     this.disableSearch(false);
   }
 

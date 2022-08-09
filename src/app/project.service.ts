@@ -15,15 +15,13 @@ export class ProjectService {
   }
 
   public fetchData(): Project[] {
-    try {
-      this.getJSON().subscribe(data => {
-        for (let i = 0; i < data.projects.length; i++) {
-          this.projectList.push(new Project(data.projects[i].id, data.projects[i].name));
-        }
 
-      });
-    } catch (e) {
-    }
+    this.getJSON().subscribe(data => {
+      for (let i = 0; i < data.projects.length; i++) {
+        this.projectList.push(new Project(data.projects[i].id, data.projects[i].name));
+      }
+
+    });
     return this.projectList;
   }
 
@@ -33,16 +31,16 @@ export class ProjectService {
 
   public async searchProjects(searchTerm: string) {
 
-    let filteredProjects: Project [] = [];
+    let filteredProjects: Project[] = [];
     this.projectList.forEach(element => {
-        let pName = element.name;
-        if (pName.toLowerCase().search(searchTerm.toLowerCase()) >= 0) {
-            filteredProjects.push(element);
-        }
+      let pName = element.name;
+      if (pName.toLowerCase().search(searchTerm.toLowerCase()) >= 0) {
+        filteredProjects.push(element);
+      }
     });
-    await new Promise(r => setTimeout(r, 5000));
+    await new Promise(r => setTimeout(r, 2000));
     return filteredProjects;
 
-}
+  }
 
 }
