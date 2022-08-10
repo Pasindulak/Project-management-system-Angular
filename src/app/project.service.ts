@@ -29,7 +29,7 @@ export class ProjectService {
   }
 
 
-  public async search(searchTerm: string) {
+  public async search(searchTerm: String) {
 
     let filteredProjects: Project[] = [];
     filteredProjects = this.projectList.filter((project: Project) => {return (project.name.toLowerCase().search(searchTerm.toLowerCase()) >= 0)});

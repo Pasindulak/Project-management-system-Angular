@@ -11,10 +11,18 @@ export class AppComponent {
   title = 'Project Management App';
   projectList: Project[];
   projectService: ProjectService;
+  status: String;
+  messageDisplay: String;
+  searchActivate:boolean;
+  searchTerm:String;
 
   constructor(projectService: ProjectService) {
     this.projectService = projectService;
     this.projectList = [];
+    this.status="";
+    this.messageDisplay="none";
+    this.searchActivate=false;
+    this.searchTerm="";
   }
 
   ngOnInit(): void {
@@ -29,37 +37,28 @@ export class AppComponent {
   }
 
   async search() {
-    const term = (<HTMLInputElement>document.getElementById('term')).value;   //// to be modified
     this.showMessage("Searching..");
-    this.disableSearch(true);
+    this.searchActivate=true;
     this.projectList = [];  //clear the list
-    this.projectList = await this.projectService.search(term); //fill the list
+    this.projectList = await this.projectService.search(this.searchTerm); //fill the list
     if (this.projectList.length === 0) {
       this.showMessage("No result found..");
     } else {
       this.hideMessage();
     }
-    this.disableSearch(false);
-  }
-
-  //Disable search button and serach bar
-  disableSearch(setEnable: boolean) {
-    (<HTMLInputElement>document.getElementById("term")).disabled = setEnable;
-    (<HTMLInputElement>document.getElementById("submit")).disabled = setEnable;
+    this.searchActivate=false;
   }
 
   //Show a message to user
   showMessage(message: string) {
-    const msgView = <HTMLElement>document.getElementById('message');
-    msgView.innerHTML = message;
-    msgView.style.display = 'block';
+    this.status=message;
+    this.messageDisplay="block";
   }
 
   //Hide the message
   hideMessage() {
-    const msgView = <HTMLElement>document.getElementById('message');
-    msgView.innerHTML = '';
-    msgView.style.display = 'none';
+    this.status="";
+    this.messageDisplay="none";
   }
 
 }
