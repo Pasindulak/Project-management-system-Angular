@@ -28,7 +28,7 @@ export class ProjectService {
     return this.projectList;
   }
 
-
+  //return filtered project list
   public async search(searchTerm: String) {
 
     let filteredProjects: Project[] = [];
