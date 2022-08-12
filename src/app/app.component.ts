@@ -33,9 +33,10 @@ export class AppComponent {
   //Load the project list
   async start() {
     this.showMessage("Searching..");
-    this.projectService.getAll().then(
-      (resolve) => {
-        this.projectList = resolve;
+    
+    await this.projectService.getAll().then(
+      (response) => {
+        this.projectList = response;
         this.hideMessage()
       },
       error => { this.showMessage("Error with the JSON!") });

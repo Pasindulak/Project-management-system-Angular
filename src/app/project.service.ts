@@ -26,6 +26,8 @@ export class ProjectService {
       }
       return this.projectList;
     }));
+
+    //convert the observable to a promise
     let promise = lastValueFrom(REQUEST);
 
     return promise;
