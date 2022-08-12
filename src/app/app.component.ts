@@ -36,10 +36,9 @@ export class AppComponent {
     this.projectService.getAll().subscribe({
       next: (data) => {
         this.projectList = data;
-        this.hideMessage()
       },
       error: (e) => this.showMessage("Error with the JSON!"),
-      complete: () => console.info('complete the data fetch!')
+      complete: () => {this.hideMessage()}
     });
 
   }
