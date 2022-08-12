@@ -8,7 +8,7 @@ import { Project } from 'src/app/Project';
   providedIn: 'root'
 })
 export class ProjectService {
-  private projectURL = '/assets/projectss.json';
+  private projectURL = '/assets/projects.json';
   private projectList: Project[];
 
   constructor(private http: HttpClient) {
