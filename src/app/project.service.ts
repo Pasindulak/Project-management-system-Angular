@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators'
 import { Project } from 'src/app/Project';
 
 @Injectable({
@@ -15,26 +16,18 @@ export class ProjectService {
   }
 
   //Return all the projects
-  public async getAll() {
+  public getAll(): Observable<any> {
 
+    let REQUEST: Observable<any> = this.http.get(this.projectURL);
 
-    const REQUEST: Observable<any> = this.http.get(this.projectURL);
-
-    REQUEST.subscribe(data => {
-      
+    REQUEST = REQUEST.pipe(map(data =>{
       for (let i = 0; i < data.projects.length; i++) {
         this.projectList.push(new Project(data.projects[i].id, data.projects[i].name));
       }
-
-    },
-      error => {
-        console.log('There was an error!');
-      }
-    );
-
-    await new Promise(r => setTimeout(r, 1000));
-
-    return this.projectList;
+      return this.projectList;
+    }));
+    
+    return REQUEST;
   }
 
   //return filtered project list
