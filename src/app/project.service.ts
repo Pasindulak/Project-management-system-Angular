@@ -8,7 +8,7 @@ import { Project } from 'src/app/Project';
   providedIn: 'root'
 })
 export class ProjectService {
-  private projectURL = '/assets/projects.json';
+  private projectURL = '/assets/projectss.json';
   private projectList: Project[];
 
   constructor(private http: HttpClient) {
@@ -20,13 +20,13 @@ export class ProjectService {
 
     let REQUEST: Observable<any> = this.http.get(this.projectURL);
 
-    REQUEST = REQUEST.pipe(map(data =>{
+    REQUEST = REQUEST.pipe(map(data => {
       for (let i = 0; i < data.projects.length; i++) {
         this.projectList.push(new Project(data.projects[i].id, data.projects[i].name));
       }
       return this.projectList;
     }));
-    
+
     return REQUEST;
   }
 
