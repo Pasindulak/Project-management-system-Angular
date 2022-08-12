@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Project } from 'src/app/Project';
 import { ProjectService } from './project.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -22,10 +23,12 @@ export class AppComponent {
   }
   
   //Load the project list
-  async start() {
+  start() {
     this.showMessage("Searching..");
-    this.projectList = await this.projectService.getAll();
-    this.hideMessage();
+    this.projectService.getAll().subscribe(data => {
+      this.projectList = data;
+      this.hideMessage();
+    });
   }
 
   async search() {
