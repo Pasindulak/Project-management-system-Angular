@@ -31,16 +31,14 @@ export class AppComponent {
   }
 
   //Load the project list
-  start() {
+  async start() {
     this.showMessage("Searching..");
-    this.projectService.getAll().subscribe({
-      next: (data) => {
-        this.projectList = data;
+    this.projectService.getAll().then(
+      (resolve) => {
+        this.projectList = resolve;
         this.hideMessage()
       },
-      error: (e) => this.showMessage("Error with the JSON!"),
-      complete: () => console.info('complete the data fetch!')
-    });
+      error => { this.showMessage("Error with the JSON!") });
 
   }
 

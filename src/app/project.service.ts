@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 import { map } from 'rxjs/operators'
 import { Project } from 'src/app/Project';
 
@@ -8,7 +8,7 @@ import { Project } from 'src/app/Project';
   providedIn: 'root'
 })
 export class ProjectService {
-  private projectURL = '/assets/projectss.json';
+  private projectURL = '/assets/projects.json';
   private projectList: Project[];
 
   constructor(private http: HttpClient) {
@@ -16,7 +16,7 @@ export class ProjectService {
   }
 
   //Return all the projects
-  public getAll(): Observable<any> {
+  public async getAll() {
 
     let REQUEST: Observable<any> = this.http.get(this.projectURL);
 
@@ -26,8 +26,9 @@ export class ProjectService {
       }
       return this.projectList;
     }));
+    let promise = lastValueFrom(REQUEST);
 
-    return REQUEST;
+    return promise;
   }
 
   //return filtered project list
