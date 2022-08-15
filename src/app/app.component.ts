@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { Project } from 'src/Project';
+import { Project } from 'src/app/Project';
 import { ProjectService } from './project.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -11,40 +12,61 @@ export class AppComponent {
   title = 'Project Management App';
   projectList: Project[];
   projectService: ProjectService;
+  status: String;
+  messageDisplay: String;
+  searchActivate: boolean;
+  searchTerm: String;
 
   constructor(projectService: ProjectService) {
     this.projectService = projectService;
-    this.projectList = projectService.fetchData();
+    this.projectList = [];
+    this.status = "";
+    this.messageDisplay = "none";
+    this.searchActivate = false;
+    this.searchTerm = "";
   }
 
-  async searchButtonAction() {
-    const term = (<HTMLInputElement>document.getElementById('term')).value;
+  ngOnInit(): void {
+    this.start();
+  }
+
+  //Load the project list
+  start() {
     this.showMessage("Searching..");
-    this.disableSearch(true);
+    this.projectService.getAll().subscribe({
+      next: (data) => {
+        this.projectList = data;
+        this.hideMessage()
+      },
+      error: (e) => this.showMessage("Error with the JSON!"),
+      complete: () => console.info('complete the data fetch!')
+    });
+
+  }
+
+  async search() {
+    this.showMessage("Searching..");
+    this.searchActivate = true;
     this.projectList = [];  //clear the list
-    this.projectList = await this.projectService.searchProjects(term); //fill the list
-    this.hideMessage();
-    this.disableSearch(false);
+    this.projectList = await this.projectService.search(this.searchTerm); //fill the list
+    if (this.projectList.length === 0) {
+      this.showMessage("No result found..");
+    } else {
+      this.hideMessage();
+    }
+    this.searchActivate = false;
   }
 
-  //Function used to disable search button and serach bar
-  disableSearch(setEnable: boolean) {
-    (<HTMLInputElement>document.getElementById("term")).disabled = setEnable;
-    (<HTMLInputElement>document.getElementById("submit")).disabled = setEnable;
-  }
-
-  //Show messages to user
+  //Show a message to user
   showMessage(message: string) {
-    const msgView = <HTMLElement>document.getElementById('message');
-    msgView.innerHTML = message;
-    msgView.style.display = 'block';
+    this.status = message;
+    this.messageDisplay = "block";
   }
 
   //Hide the message
   hideMessage() {
-    const msgView = <HTMLElement>document.getElementById('message');
-    msgView.innerHTML = '';
-    msgView.style.display = 'none';
+    this.status = "";
+    this.messageDisplay = "none";
   }
 
 }

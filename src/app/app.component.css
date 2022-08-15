@@ -1,0 +1,59 @@
+.title {
+    display: flex;
+    font-family:monospace;
+    justify-content: center;  
+}
+
+button#submit:disabled {
+    background-color: #dddddd;
+}
+
+.title-text{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+section{
+    display: flex;  
+    height: 90vh;
+}
+
+.container{   
+    background-color: #F8F8FF; 
+    max-width: 700px;
+    margin: auto;
+    width:100%;
+    padding: 20px;    
+    border-radius: 5px;
+}
+
+.btn{
+   background-color: #2E8B57; 
+   color:white;  
+   border:none;
+   padding: 10px 25px;
+   margin-left: 20px;
+   display: inline-block;
+   font-size: 16px; 
+   border-radius: 5px;
+   cursor: pointer;
+}
+
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
+
+[class*="col-"] {
+    float: left;
+    padding: 10px 20px;
+}

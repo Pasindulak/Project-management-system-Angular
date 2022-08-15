@@ -1,48 +1,43 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Project } from 'src/Project';
+import { map } from 'rxjs/operators'
+import { Project } from 'src/app/Project';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
-  private _jsonURL = '/assets/projects.json';
+  private projectURL = '/assets/projectss.json';
   private projectList: Project[];
 
   constructor(private http: HttpClient) {
     this.projectList = [];
   }
 
-  public fetchData(): Project[] {
-    try {
-      this.getJSON().subscribe(data => {
-        for (let i = 0; i < data.projects.length; i++) {
-          this.projectList.push(new Project(data.projects[i].id, data.projects[i].name));
-        }
+  //Return all the projects
+  public getAll(): Observable<any> {
 
-      });
-    } catch (e) {
-    }
-    return this.projectList;
+    let REQUEST: Observable<any> = this.http.get(this.projectURL);
+
+    REQUEST = REQUEST.pipe(map(data => {
+      for (let i = 0; i < data.projects.length; i++) {
+        this.projectList.push(new Project(data.projects[i].id, data.projects[i].name));
+      }
+      return this.projectList;
+    }));
+
+    return REQUEST;
   }
 
-  private getJSON(): Observable<any> {
-    return this.http.get(this._jsonURL);
-  }
+  //return filtered project list
+  public async search(searchTerm: String) {
 
-  public async searchProjects(searchTerm: string) {
-
-    let filteredProjects: Project [] = [];
-    this.projectList.forEach(element => {
-        let pName = element.name;
-        if (pName.toLowerCase().search(searchTerm.toLowerCase()) >= 0) {
-            filteredProjects.push(element);
-        }
-    });
-    await new Promise(r => setTimeout(r, 5000));
+    let filteredProjects: Project[] = [];
+    filteredProjects = this.projectList.filter((project: Project) => { return (project.name.toLowerCase().search(searchTerm.toLowerCase()) >= 0) });
+    //await new Promise(r => setTimeout(r, 600));
     return filteredProjects;
 
-}
+  }
 
 }
